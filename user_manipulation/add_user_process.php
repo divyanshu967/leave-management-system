@@ -31,19 +31,37 @@ if ($password !== $confirm_password) {
 }
 
 // 5. Check if email already exists
-$check_sql = "SELECT * FROM users WHERE email = '$email'";
-$check_res = $conn->query($check_sql);
-if ($check_res && $check_res->num_rows > 0) {
-    echo "<p style='color:red; text-align:center;'>User with this email already exists.</p>";
+$check_email_sql = "SELECT * FROM users WHERE email = '$email'";
+$check_email_res = $conn->query($check_email_sql);
+if ($check_email_res && $check_email_res->num_rows > 0) {
+    echo "<p style='color:red; text-align:center;'>Email already taken. Please enter a different email.</p>";
     echo "<p style='text-align:center;'><a href='add_user_form.php'>← Go Back</a></p>";
     exit();
 }
 
-// 6. Hash password
+// 6. Check if name already exists
+$check_name_sql = "SELECT * FROM users WHERE name = '$name'";
+$check_name_res = $conn->query($check_name_sql);
+if ($check_name_res && $check_name_res->num_rows > 0) {
+    echo "<p style='color:red; text-align:center;'>Username already taken. Please enter a different name.</p>";
+    echo "<p style='text-align:center;'><a href='add_user_form.php'>← Go Back</a></p>";
+    exit();
+}
+
+// 7. Check if password already exists
+$check_pass_sql = "SELECT * FROM users WHERE password = '$password'";
+$check_pass_res = $conn->query($check_pass_sql);
+if ($check_pass_res && $check_pass_res->num_rows > 0) {
+    echo "<p style='color:red; text-align:center;'>Password already in use. Choose a different password.</p>";
+    echo "<p style='text-align:center;'><a href='add_user_form.php'>← Go Back</a></p>";
+    exit();
+}
+
+// 8. Hash password (if using hashing)
 // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $hashed_password = $password;
 
-// 7. Insert user
+// 9. Insert user
 $insert_sql = "
     INSERT INTO users (name, email, password, role, status)
     VALUES ('$name', '$email', '$hashed_password', '$role', '$status')

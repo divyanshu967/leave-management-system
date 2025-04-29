@@ -79,7 +79,7 @@
         <h1>Login !!</h1>
 
         <form action="login_form_process.php" method="POST">
-            <label for="name">ENTER NAME</label>
+            <label for="name">ENTER USER NAME</label>
             <input type="text" id="name" name="name" required>
 
             <label for="password">ENTER PASSWORD</label>
