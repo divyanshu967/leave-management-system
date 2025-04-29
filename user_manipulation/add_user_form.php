@@ -84,7 +84,7 @@ if (!isset($_SESSION['name'])) {
   <div class="container">
     <h2>Add New User</h2>
     <form action="add_user_process.php" method="POST">
-      <label for="name">Full Name</label>
+      <label for="name">Username</label>
       <input type="text" id="name" name="name" required />
 
       <label for="email">Email</label>
