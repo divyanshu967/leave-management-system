@@ -40,7 +40,8 @@ if ($check_res && $check_res->num_rows > 0) {
 }
 
 // 6. Hash password
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+// $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+$hashed_password = $password;
 
 // 7. Insert user
 $insert_sql = "
