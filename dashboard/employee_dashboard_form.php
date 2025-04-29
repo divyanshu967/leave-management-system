@@ -104,18 +104,120 @@ $username = $_SESSION['name'];
         <!-- Logout Button -->
         <button class="logout-btn" onclick="window.location.href='../login/login_form.php'">Logout</button>
     </div>
-<!-- Chatbot Widget (Tawk.to) -->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"), s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/YOUR_PROPERTY_ID/1hxxx'; // Replace YOUR_PROPERTY_ID with your actual Tawk.to ID
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
+<!-- Chatbot Button & Window -->
+<style>
+#chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+#chatbot-container {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 999;
+    overflow: hidden;
+}
+
+#chatbot-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+}
+
+#chatbot-messages {
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+#chatbot-input {
+    display: flex;
+    border-top: 1px solid #ccc;
+}
+
+#chatbot-input input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+#chatbot-input button {
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+</style>
+
+<div id="chatbot-container">
+    <div id="chatbot-header">ChatBot</div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-input">
+        <input type="text" id="chatbot-text" placeholder="Type a message...">
+        <button onclick="sendChat()">Send</button>
+    </div>
+</div>
+
+<button id="chatbot-icon" onclick="toggleChat()">💬</button>
+
+<script>
+function toggleChat() {
+    var chat = document.getElementById("chatbot-container");
+    chat.style.display = (chat.style.display === "flex") ? "none" : "flex";
+}
+
+function sendChat() {
+    var input = document.getElementById("chatbot-text");
+    var messages = document.getElementById("chatbot-messages");
+    var userText = input.value.trim();
+    if (userText === "") return;
+
+    messages.innerHTML += `<div><strong>You:</strong> ${userText}</div>`;
+    input.value = "";
+
+    // Simple bot logic
+    let botReply = "Sorry, I don't understand.";
+    if (userText.toLowerCase().includes("leave balance")) {
+        botReply = "You can check your leave balance using the 'View Balance' option.";
+    } else if (userText.toLowerCase().includes("apply leave")) {
+        botReply = "To apply for leave, click on the 'Apply Leave' button.";
+    } else if (userText.toLowerCase().includes("hello") || userText.toLowerCase().includes("hi")) {
+        botReply = "Hello! How can I assist you with your leave?";
+    }
+
+    setTimeout(() => {
+        messages.innerHTML += `<div><strong>Bot:</strong> ${botReply}</div>`;
+        messages.scrollTop = messages.scrollHeight;
+    }, 500);
+}
 </script>
+
+
 
 </body>
 </html>
